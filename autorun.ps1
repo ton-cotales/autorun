@@ -6,11 +6,27 @@
     Description: This is a custom script that will install basic applications for windows.
 #>
 
+$logHeader = @"
+------------------------------------------------------
+                 autorun.exe -> log.txt               
+------------------------------------------------------
+
+"@
+
+$logFooter = @"
+
+------------------------------------------------------
+                 Author: Anthony Cotales              
+            Email: anthony.cotales.civ@gmail.com
+------------------------------------------------------
+"@
+
+
 # Applications folder
 $applicationsDir = ".\applications"
 
 # Create a Log file path
-$logFile = Join-Path -Path $pwd.Path -ChildPath "install_log.txt" -ErrorAction SilentlyContinue
+$logFile = Join-Path -Path $pwd.Path -ChildPath "log.txt" -ErrorAction SilentlyContinue
 
 # Log file writer function
 function Write-Log {
@@ -20,6 +36,8 @@ function Write-Log {
     $Message | Out-File -FilePath $logFile -Append -Encoding utf8
 }
 
+Write-Host $logHeader
+Write-Log $logHeader
 
 # -- Silent application installation
 if (Test-Path -Path $applicationsDir) {
@@ -186,6 +204,8 @@ catch {
     Write-Log "ERROR: Failed to activate windows: $_"
 }
 
+Write-Host $logFooter
+Write-Log $logFooter
 
 # -- Showing messagebox of the complete procedure
 [System.Windows.Forms.MessageBox]::Show(
